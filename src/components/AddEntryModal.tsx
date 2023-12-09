@@ -9,7 +9,6 @@ type Props = {
 const AddEntryModal = (props: Props) => {
   return (
     <View style={styles.container}>
-      <Button title="Abrir Modal" onPress={() => props.setModalVisible} />
       <Modal
         animationType="slide"
         transparent={true}
