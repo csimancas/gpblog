@@ -5,6 +5,7 @@ import {Card, Button, Text} from 'react-native-paper';
 import FlaotingButton from '../components/FlaotingButton';
 import AddEntryModal from '../components/AddEntryModal';
 import useEntryModal from '../hooks/useEntryModal';
+import useHomeScreen from '../hooks/useHomeScreen';
 
 const Entryes = [
   {
@@ -43,6 +44,9 @@ type Props = {
 
 const HomeScreen = () => {
   const {modalVisible, openModal, closeModal} = useEntryModal();
+  const {isWifiConnected} = useHomeScreen();
+
+  console.log(3333, isWifiConnected);
 
   const renderItem = ({item}: Props) => {
     return (
@@ -70,7 +74,7 @@ const HomeScreen = () => {
         modalVisible={modalVisible}
         setModalVisible={() => closeModal()}
       />
-      <FlaotingButton action={() => openModal()} />
+      <FlaotingButton action={() => openModal()} disabled={isWifiConnected} />
     </View>
   );
 };
