@@ -1,7 +1,7 @@
-import {Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
-import {useEffect, useState} from 'react';
 import {getEntrys, storeEntry} from '../utils/commons';
+import {Snackbar} from 'react-native-paper';
 
 const useHomeScreen = () => {
   const [entrys, setEntrys] = useState([]);
@@ -9,6 +9,7 @@ const useHomeScreen = () => {
   const [isEntryVisible, setIsEntryVisible] = useState(false);
   const [isWifiConnected, setIsWifiConnected] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
@@ -47,10 +48,7 @@ const useHomeScreen = () => {
       setAuthor('');
       setContent('');
     } else {
-      Alert.alert(
-        'Todos los campos son requeridos',
-        'Por favor, rellene todos los campos',
-      );
+      setIsError(true);
     }
   };
 
@@ -70,6 +68,8 @@ const useHomeScreen = () => {
     setSeeEntry,
     isEntryVisible,
     setIsEntryVisible,
+    isError,
+    setIsError,
   };
 };
 

@@ -1,12 +1,15 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <HomeScreen />
+      </View>
+    </SafeAreaProvider>
   );
 };
 

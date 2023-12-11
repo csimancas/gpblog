@@ -3,6 +3,7 @@ import React from 'react';
 import {Text, Modal, View, StyleSheet} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {formatDate} from '../utils/commons';
+import ErrorSnackBar from './ErrorSnackBar';
 
 type Props = {
   modalVisible: boolean;
@@ -15,6 +16,8 @@ type Props = {
   setContent: (content: string) => void;
   onCanceled: () => void;
   onSaved: () => void;
+  errorForm: boolean;
+  setErrorForm: () => void;
 };
 
 const AddEntryModal = ({
@@ -28,6 +31,8 @@ const AddEntryModal = ({
   setTitle,
   onCanceled,
   onSaved,
+  errorForm,
+  setErrorForm,
 }: Props) => {
   return (
     <View style={styles.container}>
@@ -71,6 +76,11 @@ const AddEntryModal = ({
             </View>
           </View>
         </View>
+        <ErrorSnackBar
+          visible={errorForm}
+          onCancel={setErrorForm}
+          text="Todos los campos son requeridos"
+        />
       </Modal>
     </View>
   );

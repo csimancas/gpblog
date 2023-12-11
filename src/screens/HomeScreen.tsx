@@ -11,6 +11,7 @@ import FlaotingButton from '../components/FlaotingButton';
 import {formatDate} from '../utils/commons';
 
 import useHomeScreen from '../hooks/useHomeScreen';
+import ErrorSnackBar from '../components/ErrorSnackBar';
 type Props = {
   item: {
     id: number;
@@ -38,6 +39,8 @@ const HomeScreen = () => {
     setSeeEntry,
     isEntryVisible,
     setIsEntryVisible,
+    isError,
+    setIsError,
   } = useHomeScreen();
 
   const renderItem = ({item}: Props) => {
@@ -83,6 +86,8 @@ const HomeScreen = () => {
         setContent={setContent}
         onCanceled={() => setIsModalVisible(false)}
         onSaved={() => saveEntry()}
+        errorForm={isError}
+        setErrorForm={() => setIsError(false)}
       />
       <DetailModal
         visible={isEntryVisible}
