@@ -39,9 +39,13 @@ const useHomeScreen = () => {
   };
 
   const saveEntry = async () => {
-    addEntry(title, content, author);
-    cleanForm();
-    setIsModalVisible(false);
+    if (title !== '' && author !== '' && content !== '') {
+      addEntry(title, content, author);
+      cleanForm();
+      setIsModalVisible(false);
+    } else {
+      setIsError(true);
+    }
   };
 
   return {

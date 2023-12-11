@@ -58,7 +58,7 @@ const HomeScreen = () => {
     );
   };
 
-  return isLoaded ? (
+  return (
     <>
       <AppBar entrysNumber={entrys.length} />
       <View style={styles.container}>
@@ -105,10 +105,6 @@ const HomeScreen = () => {
         />
       </View>
     </>
-  ) : (
-    <View style={styles.loaderContainer}>
-      <ActivityIndicator size="large" animating={true} />
-    </View>
   );
 };
 

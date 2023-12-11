@@ -9,7 +9,7 @@ const reducer = (state: any, action: any) => {
     case 'get_entries':
       return {
         data: action.payload,
-        isLoaded: true,
+        isLoaded: false,
       };
     case 'add_entry':
       return {
@@ -24,7 +24,8 @@ const getEntries = (dispatch: any) => {
   return async () => {
     try {
       fetch().then(async state => {
-        if (state.isConnected) {
+        console.log(state);
+        if (state.isInternetReachable) {
           const response = await axios.get(GET_ENTRIES);
           const isLoaded = true;
           dispatch({
@@ -34,7 +35,8 @@ const getEntries = (dispatch: any) => {
           });
         } else {
           const jsonValue: any = await AsyncStorage.getItem('@entrys');
-          return jsonValue != null ? JSON.parse(jsonValue) : null;
+          const data = jsonValue != null ? JSON.parse(jsonValue) : null;
+          dispatch({type: 'get_entries', payload: data});
         }
       });
     } catch (error) {
@@ -61,7 +63,6 @@ const addEntry = (dispatch: any) => {
           date: new Date(),
         })
         .then(async () => {
-          dispatch({type: 'add_entry', payload: entryObj});
           const jsonValue = await AsyncStorage.getItem('@entrys').then(res => {
             if (res !== null) {
               return res;
@@ -77,6 +78,7 @@ const addEntry = (dispatch: any) => {
         .catch(error => {
           console.log(error);
         });
+      dispatch({type: 'add_entry', payload: entryObj});
     } catch (error) {
       console.log(error);
     }
