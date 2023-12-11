@@ -1,8 +1,11 @@
 import React from 'react';
+
+import AddEntryModal from '../components/AddEntryModal';
+import DetailModal from '../components/DetailModal';
+
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Button, Card, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AddEntryModal from '../components/AddEntryModal';
 import FlaotingButton from '../components/FlaotingButton';
 
 import useHomeScreen from '../hooks/useHomeScreen';
@@ -29,6 +32,10 @@ const HomeScreen = () => {
     setContent,
     entrys,
     saveEntry,
+    seeEntry,
+    setSeeEntry,
+    isEntryVisible,
+    setIsEntryVisible,
   } = useHomeScreen();
 
   const renderItem = ({item}: Props) => {
@@ -39,7 +46,13 @@ const HomeScreen = () => {
           <Text>{`${item.content.substring(0, 60)} ...`}</Text>
         </Card.Content>
         <Card.Actions>
-          <Button onPress={() => console.log(item)}>Ver entrada</Button>
+          <Button
+            onPress={() => {
+              setSeeEntry(item);
+              setIsEntryVisible(true);
+            }}>
+            Ver entrada
+          </Button>
         </Card.Actions>
       </Card>
     );
@@ -75,6 +88,11 @@ const HomeScreen = () => {
         setContent={setContent}
         onCanceled={() => setIsModalVisible(false)}
         onSaved={() => saveEntry()}
+      />
+      <DetailModal
+        visible={isEntryVisible}
+        onClose={() => setIsEntryVisible(false)}
+        item={seeEntry}
       />
       <FlaotingButton
         action={() => setIsModalVisible(true)}

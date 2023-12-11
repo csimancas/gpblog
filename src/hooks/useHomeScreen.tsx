@@ -4,6 +4,8 @@ import {getEntrys, storeEntry} from '../utils/commons';
 
 const useHomeScreen = () => {
   const [entrys, setEntrys] = useState([]);
+  const [seeEntry, setSeeEntry] = useState({} as any);
+  const [isEntryVisible, setIsEntryVisible] = useState(false);
   const [isWifiConnected, setIsWifiConnected] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState('');
@@ -56,6 +58,10 @@ const useHomeScreen = () => {
     setContent,
     entrys,
     saveEntry,
+    seeEntry,
+    setSeeEntry,
+    isEntryVisible,
+    setIsEntryVisible,
   };
 };
 
