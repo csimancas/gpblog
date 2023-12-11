@@ -1,17 +1,17 @@
 import React from 'react';
 
+import useHomeScreen from '../hooks/useHomeScreen';
+
+import AppBar from '../components/AppBar';
 import CardEntry from '../components/CardEntry';
 import AddEntryModal from '../components/AddEntryModal';
 import DetailModal from '../components/DetailModal';
+import FlaotingButton from '../components/FlaotingButton';
 
 import {FlatList, StyleSheet, View} from 'react-native';
-import {Button, Card, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FlaotingButton from '../components/FlaotingButton';
-import {formatDate} from '../utils/commons';
 
-import useHomeScreen from '../hooks/useHomeScreen';
-import ErrorSnackBar from '../components/ErrorSnackBar';
 type Props = {
   item: {
     id: number;
@@ -46,6 +46,7 @@ const HomeScreen = () => {
   const renderItem = ({item}: Props) => {
     return (
       <CardEntry
+        isList={true}
         isShowDetail={false}
         item={item}
         cardAction={() => {
@@ -57,48 +58,51 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {entrys.length !== 0 ? (
-        <>
-          <Text variant="headlineSmall">{`Entradas del blog: ${entrys.length}`}</Text>
-          <FlatList
-            data={entrys}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-          />
-        </>
-      ) : (
-        <View style={styles.textnoEntry}>
-          <Icon name="bookmark-off" size={120} color={'red'} />
-          <Text variant="bodyMedium" style={styles.noEntrysText}>
-            Por el momento no hay entradas, ingresa una en el boton de mas
-          </Text>
-        </View>
-      )}
-      <AddEntryModal
-        modalVisible={isModalVisible}
-        setModalVisible={() => setIsModalVisible(false)}
-        title={title}
-        setTitle={setTitle}
-        author={author}
-        setAuthor={setAuthor}
-        content={content}
-        setContent={setContent}
-        onCanceled={() => setIsModalVisible(false)}
-        onSaved={() => saveEntry()}
-        errorForm={isError}
-        setErrorForm={() => setIsError(false)}
-      />
-      <DetailModal
-        visible={isEntryVisible}
-        onClose={() => setIsEntryVisible(false)}
-        item={seeEntry}
-      />
-      <FlaotingButton
-        action={() => setIsModalVisible(true)}
-        disabled={isWifiConnected}
-      />
-    </View>
+    <>
+      <AppBar entrysNumber={entrys.length} />
+      <View style={styles.container}>
+        {entrys.length !== 0 ? (
+          <>
+            <FlatList
+              style={styles.list}
+              data={entrys}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+            />
+          </>
+        ) : (
+          <View style={styles.textnoEntry}>
+            <Icon name="bookmark-off" size={120} color={'red'} />
+            <Text variant="bodyMedium" style={styles.noEntrysText}>
+              Por el momento no hay entradas, ingresa una en el boton de mas
+            </Text>
+          </View>
+        )}
+        <AddEntryModal
+          modalVisible={isModalVisible}
+          setModalVisible={() => setIsModalVisible(false)}
+          title={title}
+          setTitle={setTitle}
+          author={author}
+          setAuthor={setAuthor}
+          content={content}
+          setContent={setContent}
+          onCanceled={() => setIsModalVisible(false)}
+          onSaved={() => saveEntry()}
+          errorForm={isError}
+          setErrorForm={() => setIsError(false)}
+        />
+        <DetailModal
+          visible={isEntryVisible}
+          onClose={() => setIsEntryVisible(false)}
+          item={seeEntry}
+        />
+        <FlaotingButton
+          action={() => setIsModalVisible(true)}
+          disabled={isWifiConnected}
+        />
+      </View>
+    </>
   );
 };
 
@@ -109,25 +113,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8EAED',
     paddingHorizontal: 20,
   },
-  cardStyle: {
-    width: '100%',
-    marginBottom: 10,
-  },
-  ScrollView: {
-    flexGrow: 1,
+  list: {
+    marginTop: 20,
   },
   textnoEntry: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 50,
-  },
-  button: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-    borderRadius: 5,
-    marginBottom: 10,
   },
   noEntrysText: {
     textAlign: 'center',
