@@ -24,6 +24,8 @@ Sigue estos pasos para instalar y configurar la aplicación:
    - npm start && npm run android
 5. ESTE PROYECTO ESTA UNICAMENTE DISPONIBLE PARA CORRER EN ANDROID.
 
+6. Es necesario mencionar en la carpeta de utils, esta el archivo api.ts, tiene una pequeña validación dependiendo como se quiera utilizar el app, puede ser corriendo el servidor en local, o utilizar el back que esta en heroku, solo sera necesario poner la constante dev en true para local, o en false para utilizarla con el servidor.
+
 ** Nota **
 
 Para acceder a un servidor local en tu máquina de desarrollo desde el emulador de Android, debes utilizar una dirección IP especial que apunte a la interfaz de red de tu máquina. En el caso de emuladores Android, la dirección IP que debes usar es 10.0.2.2. Esta dirección IP actúa como un puente entre el emulador y la máquina de desarrollo, permitiendo que el emulador acceda a los recursos locales de la máquina de desarrollo.
