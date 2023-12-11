@@ -5,7 +5,7 @@ import {formatDate} from '../utils/commons';
 
 type Props = {
   item: {
-    id: number;
+    _id: string;
     title: string;
     author: string;
     date: Date;

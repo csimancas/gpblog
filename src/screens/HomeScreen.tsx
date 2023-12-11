@@ -9,12 +9,12 @@ import DetailModal from '../components/DetailModal';
 import FlaotingButton from '../components/FlaotingButton';
 
 import {FlatList, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {ActivityIndicator, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type Props = {
   item: {
-    id: number;
+    _id: string;
     title: string;
     author: string;
     date: Date;
@@ -41,6 +41,7 @@ const HomeScreen = () => {
     setIsEntryVisible,
     isError,
     setIsError,
+    isLoaded,
   } = useHomeScreen();
 
   const renderItem = ({item}: Props) => {
@@ -57,7 +58,7 @@ const HomeScreen = () => {
     );
   };
 
-  return (
+  return isLoaded ? (
     <>
       <AppBar entrysNumber={entrys.length} />
       <View style={styles.container}>
@@ -67,7 +68,8 @@ const HomeScreen = () => {
               style={styles.list}
               data={entrys}
               renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
+              keyExtractor={item => item._id}
+              showsVerticalScrollIndicator={false}
             />
           </>
         ) : (
@@ -103,6 +105,10 @@ const HomeScreen = () => {
         />
       </View>
     </>
+  ) : (
+    <View style={styles.loaderContainer}>
+      <ActivityIndicator size="large" animating={true} />
+    </View>
   );
 };
 
@@ -112,6 +118,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#E8EAED',
     paddingHorizontal: 20,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   list: {
     marginTop: 20,

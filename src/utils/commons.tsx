@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {format} from 'date-fns';
+import axios from 'axios';
+import {GET_ENTRIES} from './api';
+import {fetch} from '@react-native-community/netinfo';
 
 export const storeEntry = async (value: any) => {
   try {
@@ -12,8 +15,16 @@ export const storeEntry = async (value: any) => {
 
 export const getEntrys = async () => {
   try {
-    const jsonValue: any = await AsyncStorage.getItem('@entrys');
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    fetch().then(async state => {
+      if (state.isConnected) {
+        axios.get(GET_ENTRIES).then(response => {
+          return response.data.entries;
+        });
+      } else {
+        const jsonValue: any = await AsyncStorage.getItem('@entrys');
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+      }
+    });
   } catch (e) {
     console.log(e);
   }
