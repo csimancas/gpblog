@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CardEntry from '../components/CardEntry';
 import AddEntryModal from '../components/AddEntryModal';
 import DetailModal from '../components/DetailModal';
 
@@ -41,24 +42,14 @@ const HomeScreen = () => {
 
   const renderItem = ({item}: Props) => {
     return (
-      <Card style={styles.cardStyle}>
-        <Card.Title title={`Autor: ${item.author}`} />
-        <Card.Title title={`Fecha: ${formatDate(new Date(item.date))}`} />
-        <Card.Title title={`Titulo: ${item.title}`} />
-        <Card.Content>
-          <Text>{`${item.content.substring(0, 60)} ...`}</Text>
-        </Card.Content>
-        <Card.Actions>
-          <Button
-            mode="contained"
-            onPress={() => {
-              setSeeEntry(item);
-              setIsEntryVisible(true);
-            }}>
-            Ver entrada
-          </Button>
-        </Card.Actions>
-      </Card>
+      <CardEntry
+        isShowDetail={false}
+        item={item}
+        cardAction={() => {
+          setSeeEntry(item);
+          setIsEntryVisible(true);
+        }}
+      />
     );
   };
 

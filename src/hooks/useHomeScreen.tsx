@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import {useEffect, useState} from 'react';
 import {getEntrys, storeEntry} from '../utils/commons';
@@ -37,13 +38,20 @@ const useHomeScreen = () => {
       date: new Date(),
       content,
     };
-    const newEntrys: any = [...entrys, newEntry];
-    setEntrys(newEntrys);
-    await storeEntry(newEntrys);
-    setIsModalVisible(false);
-    setTitle('');
-    setAuthor('');
-    setContent('');
+    if (title !== '' && author !== '' && content !== '') {
+      const newEntrys: any = [...entrys, newEntry];
+      setEntrys(newEntrys);
+      await storeEntry(newEntrys);
+      setIsModalVisible(false);
+      setTitle('');
+      setAuthor('');
+      setContent('');
+    } else {
+      Alert.alert(
+        'Todos los campos son requeridos',
+        'Por favor, rellene todos los campos',
+      );
+    }
   };
 
   return {

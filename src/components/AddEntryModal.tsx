@@ -1,9 +1,8 @@
 import React from 'react';
 
-import {Modal, View, StyleSheet} from 'react-native';
+import {Text, Modal, View, StyleSheet} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
-
-import {format} from 'date-fns';
+import {formatDate} from '../utils/commons';
 
 type Props = {
   modalVisible: boolean;
@@ -41,6 +40,10 @@ const AddEntryModal = ({
         }}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
+            <Text>
+              Fecha de publicación:
+              <Text style={styles.dateText}>{formatDate(new Date())}</Text>
+            </Text>
             <TextInput
               style={styles.textInput}
               label="Titulo"
@@ -52,11 +55,6 @@ const AddEntryModal = ({
               label="Autor"
               value={author}
               onChangeText={text => setAuthor(text)}
-            />
-            <TextInput
-              style={styles.textInput}
-              label="Fecha"
-              value={format(new Date(), 'dd/MM/yyyy')}
             />
             <TextInput
               style={styles.textInput}
@@ -108,6 +106,10 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 4,
+  },
+  dateText: {
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 
