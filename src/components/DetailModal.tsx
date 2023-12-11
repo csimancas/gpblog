@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Modal} from 'react-native';
 import {Button, Card, Text} from 'react-native-paper';
+import {formatDate} from '../utils/commons';
 
 type Props = {
   visible: boolean;
@@ -20,9 +21,11 @@ const DetailModal = ({visible, item, onClose}: Props) => {
       <Modal transparent={true} visible={visible} animationType="slide">
         <View style={styles.container}>
           <Card style={styles.cardStyle}>
-            <Card.Title title={item.title} />
+            <Card.Title title={`Autor: ${item.author}`} />
+            <Card.Title title={`Fecha: ${formatDate(new Date(item.date))}`} />
+            <Card.Title title={`Titulo: ${item.title}`} />
             <Card.Content>
-              <Text>{`${item?.content}`}</Text>
+              <Text>{`${item.content}`}</Text>
             </Card.Content>
             <Card.Actions>
               <Button mode="contained" onPress={onClose}>

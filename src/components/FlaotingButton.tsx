@@ -18,7 +18,7 @@ const FlaotingButton = ({action, disabled}: Props) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'green',
+    backgroundColor: 'purple',
     width: 60,
     height: 60,
     borderRadius: 30,

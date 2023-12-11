@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {format} from 'date-fns';
 
 export const storeEntry = async (value: any) => {
   try {
@@ -16,4 +17,8 @@ export const getEntrys = async () => {
   } catch (e) {
     console.log(e);
   }
+};
+
+export const formatDate = (date: Date) => {
+  return format(date, 'dd/MM/yyyy');
 };

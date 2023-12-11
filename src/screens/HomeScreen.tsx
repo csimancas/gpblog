@@ -7,6 +7,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import {Button, Card, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FlaotingButton from '../components/FlaotingButton';
+import {formatDate} from '../utils/commons';
 
 import useHomeScreen from '../hooks/useHomeScreen';
 type Props = {
@@ -41,12 +42,15 @@ const HomeScreen = () => {
   const renderItem = ({item}: Props) => {
     return (
       <Card style={styles.cardStyle}>
-        <Card.Title title={item.title} />
+        <Card.Title title={`Autor: ${item.author}`} />
+        <Card.Title title={`Fecha: ${formatDate(new Date(item.date))}`} />
+        <Card.Title title={`Titulo: ${item.title}`} />
         <Card.Content>
           <Text>{`${item.content.substring(0, 60)} ...`}</Text>
         </Card.Content>
         <Card.Actions>
           <Button
+            mode="contained"
             onPress={() => {
               setSeeEntry(item);
               setIsEntryVisible(true);

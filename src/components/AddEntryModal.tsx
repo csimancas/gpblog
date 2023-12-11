@@ -3,6 +3,8 @@ import React from 'react';
 import {Modal, View, StyleSheet} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 
+import {format} from 'date-fns';
+
 type Props = {
   modalVisible: boolean;
   setModalVisible: (modalVisible: boolean) => void;
@@ -54,7 +56,7 @@ const AddEntryModal = ({
             <TextInput
               style={styles.textInput}
               label="Fecha"
-              value={new Date().toString()}
+              value={format(new Date(), 'dd/MM/yyyy')}
             />
             <TextInput
               style={styles.textInput}
