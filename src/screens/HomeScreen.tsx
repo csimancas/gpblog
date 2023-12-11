@@ -11,6 +11,7 @@ import FlaotingButton from '../components/FlaotingButton';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {ActivityIndicator, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchBar from '../components/SearchBar';
 
 type Props = {
   item: {
@@ -41,7 +42,9 @@ const HomeScreen = () => {
     setIsEntryVisible,
     isError,
     setIsError,
-    isLoaded,
+    filteredData,
+    searchText,
+    searchItem,
   } = useHomeScreen();
 
   const renderItem = ({item}: Props) => {
@@ -62,11 +65,15 @@ const HomeScreen = () => {
     <>
       <AppBar entrysNumber={entrys.length} />
       <View style={styles.container}>
+        <SearchBar
+          searchQuery={searchText}
+          onChangeSearch={text => searchItem(text)}
+        />
         {entrys.length !== 0 ? (
           <>
             <FlatList
               style={styles.list}
-              data={entrys}
+              data={searchText.length > 0 ? filteredData : entrys}
               renderItem={renderItem}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}
