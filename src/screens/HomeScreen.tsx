@@ -1,37 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Card, Button, Text} from 'react-native-paper';
-import FlaotingButton from '../components/FlaotingButton';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {Button, Card, Text} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddEntryModal from '../components/AddEntryModal';
-import useEntryModal from '../hooks/useEntryModal';
+import FlaotingButton from '../components/FlaotingButton';
+
 import useHomeScreen from '../hooks/useHomeScreen';
-
-const Entryes = [
-  {
-    id: 1,
-    title: 'Titulo 1',
-    author: 'Autor 1',
-    date: new Date(),
-    content: 'Contenido 1',
-  },
-  {
-    id: 2,
-    title: 'Titulo 1',
-    author: 'Autor 1',
-    date: new Date(),
-    content: 'Contenido 1',
-  },
-  {
-    id: 3,
-    title: 'Titulo 1',
-    author: 'Autor 1',
-    date: new Date(),
-    content:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-  },
-];
-
 type Props = {
   item: {
     id: number;
@@ -43,10 +17,19 @@ type Props = {
 };
 
 const HomeScreen = () => {
-  const {modalVisible, openModal, closeModal} = useEntryModal();
-  const {isWifiConnected} = useHomeScreen();
-
-  console.log(3333, isWifiConnected);
+  const {
+    isWifiConnected,
+    isModalVisible,
+    setIsModalVisible,
+    title,
+    setTitle,
+    author,
+    setAuthor,
+    content,
+    setContent,
+    entrys,
+    saveEntry,
+  } = useHomeScreen();
 
   const renderItem = ({item}: Props) => {
     return (
@@ -56,7 +39,7 @@ const HomeScreen = () => {
           <Text>{`${item.content.substring(0, 60)} ...`}</Text>
         </Card.Content>
         <Card.Actions>
-          <Button>Ver entrada</Button>
+          <Button onPress={() => console.log(item)}>Ver entrada</Button>
         </Card.Actions>
       </Card>
     );
@@ -64,17 +47,39 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineSmall">Entradas del blog:</Text>
-      <FlatList
-        data={Entryes}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-      />
+      {entrys.length !== 0 ? (
+        <>
+          <Text variant="headlineSmall">{`Entradas del blog: ${entrys.length}`}</Text>
+          <FlatList
+            data={entrys}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+          />
+        </>
+      ) : (
+        <View style={styles.textnoEntry}>
+          <Icon name="bookmark-off" size={120} color={'red'} />
+          <Text variant="bodyMedium" style={styles.noEntrysText}>
+            Por el momento no hay entradas, ingresa una en el boton de mas
+          </Text>
+        </View>
+      )}
       <AddEntryModal
-        modalVisible={modalVisible}
-        setModalVisible={() => closeModal()}
+        modalVisible={isModalVisible}
+        setModalVisible={() => setIsModalVisible(false)}
+        title={title}
+        setTitle={setTitle}
+        author={author}
+        setAuthor={setAuthor}
+        content={content}
+        setContent={setContent}
+        onCanceled={() => setIsModalVisible(false)}
+        onSaved={() => saveEntry()}
       />
-      <FlaotingButton action={() => openModal()} disabled={isWifiConnected} />
+      <FlaotingButton
+        action={() => setIsModalVisible(true)}
+        disabled={isWifiConnected}
+      />
     </View>
   );
 };
@@ -93,12 +98,24 @@ const styles = StyleSheet.create({
   ScrollView: {
     flexGrow: 1,
   },
+  textnoEntry: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
   button: {
     width: '100%',
     position: 'absolute',
     bottom: 0,
     borderRadius: 5,
     marginBottom: 10,
+  },
+  noEntrysText: {
+    textAlign: 'center',
+    marginTop: 10,
+    fontWeight: '600',
+    color: 'black',
   },
 });
 

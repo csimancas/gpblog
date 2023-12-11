@@ -1,12 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet, Modal, TouchableOpacity} from 'react-native';
 
-const DetailModal = (props: any) => {
+type Props = {
+  visible: boolean;
+  onClose: () => void;
+};
+
+const DetailModal = ({visible, onClose}: Props) => {
   return (
-    <Modal visible={props.visible} animationType="slide">
+    <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
         <Text>Detalle de la entrada</Text>
-        <TouchableOpacity onPress={props.close}>
+        <TouchableOpacity onPress={onClose}>
           <Text>Cerrar</Text>
         </TouchableOpacity>
       </View>
